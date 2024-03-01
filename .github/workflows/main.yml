@@ -18,7 +18,7 @@ jobs:
       #     api-level: 29
       #     script: echo "Android Emulator Running"
 
-      - uses: futureware-tech/simulator-action@v3
+        uses: futureware-tech/simulator-action@v3
         with:
           model: 'iPhone 8'
           os_version: '16.2' 
