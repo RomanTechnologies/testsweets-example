@@ -12,59 +12,48 @@ jobs:
     #   built-apk: ${{ steps.buildApk.outputs.apkPath }}
 
     steps:
-      - name: Start Emulator and Run TestSweets # TODO: Currently we have to find the Alternative for this only
-        uses: reactivecircus/android-emulator-runner@v2
+      - name: checkout
+        uses: actions/checkout@v4
+
+      - name: 'Set up JDK'
+        uses: actions/setup-java@v1
         with:
-          api-level: 29
-          script: ./gradlew connectedCheck
+          java-version: '12.x'
 
-        # uses: futureware-tech/simulator-action@v3
-        # with:
-        #   model: 'iPhone 8'
-        #   os_version: '16.2' 
-          
-      # - name: checkout
-      #   uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: "stable"
 
-      # - name: 'Set up JDK'
-      #   uses: actions/setup-java@v1
-      #   with:
-      #     java-version: '12.x'
+      - name: Check Flutter version
+        run: flutter doctor -v
+      - name: Get all packages Flutter
+        run: flutter pub get
+      - name: Flutter Build debug APK
+        id: buildApk
+        run: flutter build apk --debug --dart-define=FORCE_CAPTURE_MODE=false
 
-      # - uses: subosito/flutter-action@v2
-      #   with:
-      #     channel: "stable"
-
-      # - name: Check Flutter version
-      #   run: flutter doctor -v
-      # - name: Get all packages Flutter
-      #   run: flutter pub get
-      # - name: Flutter Build debug APK
-      #   id: buildApk
-      #   run: flutter build apk --debug --dart-define=FORCE_CAPTURE_MODE=false
-
-      # - name: Setup Homebrew
-      #   run: |
-      #     /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+      - name: Setup Homebrew
+        run: |
+          /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
       
-      # - name: Install TestSweets
-      #   run: |
-      #     brew tap filledstacks/tap
-      #     brew install testsweets
+      - name: Install TestSweets
+        run: |
+          brew tap filledstacks/tap
+          brew install testsweets
       
-      # - name: Start Emulator and Run TestSweets # TODO: Currently we have to find the Alternative for this only
-      # #   uses: reactivecircus/android-emulator-runner@v2
-      # #   with:
-      # #     api-level: 29
-      # #     script: echo "Android Emulator Running"
-
-      # - uses: futureware-tech/simulator-action@v3
+      - name: Start Emulator and Run TestSweets # TODO: Currently we have to find the Alternative for this only
+      #   uses: reactivecircus/android-emulator-runner@v2
       #   with:
-      #     model: 'iPhone 8'
-      #     os_version: '16.2' 
-      
-      # - name: TestSweets Authenticate
-      #   run: testsweets authenticate -e ${{ secrets.TESTSWEETS_EMAIL_ACCOUNT }} -p ${{ secrets.TESTSWEETS_PASSWORD }}
+      #     api-level: 29
+      #     script: echo "Android Emulator Running"
 
-      # - name: Run TestSweets Tests
-      #   run: testsweets run -p qA5ua2TOgxBtMGcSVBGE -a build/app/outputs/flutter-apk/app-debug.apk
+        uses: futureware-tech/simulator-action@v3
+        with:
+          model: 'iPhone 8'
+          os_version: '16.2' 
+      
+      - name: TestSweets Authenticate
+        run: testsweets authenticate -e ${{ secrets.TESTSWEETS_EMAIL_ACCOUNT }} -p ${{ secrets.TESTSWEETS_PASSWORD }}
+
+      - name: Run TestSweets Tests
+        run: testsweets run -p qA5ua2TOgxBtMGcSVBGE -a build/app/outputs/flutter-apk/app-debug.apk
