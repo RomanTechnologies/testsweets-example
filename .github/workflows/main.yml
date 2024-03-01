@@ -57,6 +57,7 @@ jobs:
       - uses: futureware-tech/simulator-action@v3
         with:
           model: 'iPhone 8'
+          os-version: '16.2' 
       
       - name: TestSweets Authenticate
         run: testsweets authenticate -e ${{ secrets.TESTSWEETS_EMAIL_ACCOUNT }} -p ${{ secrets.TESTSWEETS_PASSWORD }}
