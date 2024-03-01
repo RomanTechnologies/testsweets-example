@@ -12,43 +12,7 @@ jobs:
     #   built-apk: ${{ steps.buildApk.outputs.apkPath }}
 
     steps:
-      - name: checkout
-        uses: actions/checkout@v4
-
-      - name: 'Set up JDK'
-        uses: actions/setup-java@v1
-        with:
-          java-version: '12.x'
-
-      - uses: subosito/flutter-action@v2
-        with:
-          channel: "stable"
-
-      - name: Check Flutter version
-        run: flutter doctor -v
-      - name: Get all packages Flutter
-        run: flutter pub get
-      - name: Flutter Build debug APK
-        id: buildApk
-        run: flutter build apk --debug --dart-define=FORCE_CAPTURE_MODE=false
-
-
-      # - name: Enable KVM
-      #   run: |
-      #     echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
-      #     sudo udevadm control --reload-rules
-      #     sudo udevadm trigger --name-match=kvm
-
-      - name: Setup Homebrew
-        run: |
-          /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-      
-      - name: Install TestSweets
-        run: |
-          brew tap filledstacks/tap
-          brew install testsweets
-      
-      # - name: Start Emulator and Run TestSweets # TODO: Currently we have to find the Alternative for this only
+      - name: Start Emulator and Run TestSweets # TODO: Currently we have to find the Alternative for this only
       #   uses: reactivecircus/android-emulator-runner@v2
       #   with:
       #     api-level: 29
@@ -57,10 +21,49 @@ jobs:
       - uses: futureware-tech/simulator-action@v3
         with:
           model: 'iPhone 8'
-          os-version: '16.2' 
-      
-      - name: TestSweets Authenticate
-        run: testsweets authenticate -e ${{ secrets.TESTSWEETS_EMAIL_ACCOUNT }} -p ${{ secrets.TESTSWEETS_PASSWORD }}
+          os_version: '16.2' 
+      # - name: checkout
+      #   uses: actions/checkout@v4
 
-      - name: Run TestSweets Tests
-        run: testsweets run -p qA5ua2TOgxBtMGcSVBGE -a build/app/outputs/flutter-apk/app-debug.apk
+      # - name: 'Set up JDK'
+      #   uses: actions/setup-java@v1
+      #   with:
+      #     java-version: '12.x'
+
+      # - uses: subosito/flutter-action@v2
+      #   with:
+      #     channel: "stable"
+
+      # - name: Check Flutter version
+      #   run: flutter doctor -v
+      # - name: Get all packages Flutter
+      #   run: flutter pub get
+      # - name: Flutter Build debug APK
+      #   id: buildApk
+      #   run: flutter build apk --debug --dart-define=FORCE_CAPTURE_MODE=false
+
+      # - name: Setup Homebrew
+      #   run: |
+      #     /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+      
+      # - name: Install TestSweets
+      #   run: |
+      #     brew tap filledstacks/tap
+      #     brew install testsweets
+      
+      # - name: Start Emulator and Run TestSweets # TODO: Currently we have to find the Alternative for this only
+      # #   uses: reactivecircus/android-emulator-runner@v2
+      # #   with:
+      # #     api-level: 29
+      # #     script: echo "Android Emulator Running"
+
+      # - uses: futureware-tech/simulator-action@v3
+      #   with:
+      #     model: 'iPhone 8'
+      #     os_version: '16.2' 
+      
+      # - name: TestSweets Authenticate
+      #   run: testsweets authenticate -e ${{ secrets.TESTSWEETS_EMAIL_ACCOUNT }} -p ${{ secrets.TESTSWEETS_PASSWORD }}
+
+      # - name: Run TestSweets Tests
+      #   run: testsweets run -p qA5ua2TOgxBtMGcSVBGE -a build/app/outputs/flutter-apk/app-debug.apk
