@@ -42,15 +42,15 @@ jobs:
           brew install testsweets
       
       - name: Start Emulator and Run TestSweets # TODO: Currently we have to find the Alternative for this only
-      #   uses: reactivecircus/android-emulator-runner@v2
-      #   with:
-      #     api-level: 29
-      #     script: echo "Android Emulator Running"
-
-        uses: futureware-tech/simulator-action@v3
+        uses: reactivecircus/android-emulator-runner@v2
         with:
-          model: 'iPhone 8'
-          os_version: '16.2' 
+          api-level: 29
+          script: echo "Android Emulator Running"
+
+        # uses: futureware-tech/simulator-action@v3
+        # with:
+        #   model: 'iPhone 8'
+        #   os_version: '16.2'
       
       - name: TestSweets Authenticate
         run: testsweets authenticate -e ${{ secrets.TESTSWEETS_EMAIL_ACCOUNT }} -p ${{ secrets.TESTSWEETS_PASSWORD }}
