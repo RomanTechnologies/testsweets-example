@@ -42,7 +42,7 @@ jobs:
           brew install testsweets
       
       - name: Start Emulator and Run TestSweets # TODO: Currently we have to find the Alternative for this only
-      - uses: reactivecircus/android-emulator-runner@v2
+        uses: reactivecircus/android-emulator-runner@v2
         with:
           api-level: 29
           arch: arm64-v8a
