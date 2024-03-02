@@ -1,1 +1,51 @@
+name: Run TestSweets Tests iOS
 
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  testsweets_tests:
+    runs-on: macos-14 # use macos-14 insted of macos-latest-large as that is based on M1 (  https://docs.github.com/en/actions/using-github-hosted-runners/about-github-hosted-runners/about-github-hosted-runners#:~:text=N/A-,macOS,N/A,-Standard%20GitHub%2Dhosted ) 
+
+    # outputs:
+    #   built-apk: ${{ steps.buildApk.outputs.apkPath }}
+
+    steps:
+      - name: checkout
+        uses: actions/checkout@v4
+
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: "stable"
+
+      - name: Check Flutter version
+        run: flutter doctor -v
+        
+      - name: Get all packages Flutter
+        run: flutter pub get
+        
+      - name: Flutter Build debug IPA
+        id: buildIpa
+        run: flutter build ipa --debug --dart-define=FORCE_CAPTURE_MODE=false
+
+      - name: Setup Homebrew
+        run: |
+          /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+      
+      - name: Install TestSweets
+        run: |
+          brew tap filledstacks/tap
+          brew install testsweets
+      
+      - name: Start Emulator and Run TestSweets
+        uses: futureware-tech/simulator-action@v3
+        with:
+          model: 'iPhone 8'
+          os_version: '16.2'
+      
+      - name: TestSweets Authenticate
+        run: testsweets authenticate -e ${{ secrets.TESTSWEETS_EMAIL_ACCOUNT }} -p ${{ secrets.TESTSWEETS_PASSWORD }}
+
+      - name: Run TestSweets Tests
+        run: testsweets run -p qA5ua2TOgxBtMGcSVBGE -a build/app/outputs/flutter-apk/app-debug.apk
