@@ -74,9 +74,12 @@ jobs:
         run: flutter doctor -v
       - name: Get all packages Flutter
         run: flutter pub get
-      - name: Flutter Build debug APK
-        id: buildApk
-        run: flutter build apk --debug --dart-define=FORCE_CAPTURE_MODE=false
+      # - name: Flutter Build debug APK
+      #   id: buildApk
+      #   run: flutter build apk --debug --dart-define=FORCE_CAPTURE_MODE=false
+      - name: Flutter Build debug IPA
+        id: buildIpa
+        run: flutter build ipa --debug --dart-define=FORCE_CAPTURE_MODE=false
 
       - name: Setup Homebrew
         run: |
