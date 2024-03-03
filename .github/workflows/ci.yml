@@ -162,4 +162,4 @@ jobs:
         run: testsweets authenticate -e ${{ secrets.TESTSWEETS_EMAIL_ACCOUNT }} -p ${{ secrets.TESTSWEETS_PASSWORD }}
 
       - name: Run TestSweets Tests
-        run: testsweets run -p hBPApL0mJHTofHNRipeq -a build/ios/iphonesimulator/Runner.app
+        run: testsweets run -p qA5ua2TOgxBtMGcSVBGE -a build/ios/iphonesimulator/Runner.app
