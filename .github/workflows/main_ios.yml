@@ -41,7 +41,7 @@ jobs:
       - name: Start Emulator and Run TestSweets
         uses: futureware-tech/simulator-action@v3
         with:
-          model: 'iPhone 8'
+          model: 'iPhone 11'
           os_version: '16.2'
       
       - name: TestSweets Authenticate
