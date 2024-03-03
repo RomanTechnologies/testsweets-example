@@ -27,7 +27,7 @@ jobs:
         
       - name: Flutter Build debug IPA
         id: buildIpa
-        run: flutter build ipa --debug --dart-define=FORCE_CAPTURE_MODE=false
+        run: flutter build ios --debug --simulator --no-codesign --dart-define=FORCE_CAPTURE_MODE=false
 
       - name: Setup Homebrew
         run: |
