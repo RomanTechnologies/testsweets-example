@@ -58,8 +58,7 @@ jobs:
       - name: Start Emulator and Run TestSweets
         uses: futureware-tech/simulator-action@v3
         with:
-          model: 'iPhone 11'
-          os_version: '16.2'
+          model: 'iPhone 14 Pro'
       
       - name: TestSweets Authenticate
         run: testsweets authenticate -e ${{ secrets.TESTSWEETS_EMAIL_ACCOUNT }} -p ${{ secrets.TESTSWEETS_PASSWORD }}
