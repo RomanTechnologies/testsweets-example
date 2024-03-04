@@ -67,11 +67,11 @@ jobs:
       #     disable-animations: true
       #     script: ./gradlew connectedCheck
 
-      # - name: 'Set up JDK'
-      #   uses: actions/setup-java@v2
-      #   with:
-      #     distribution: 'temurin' # This is Eclipse Temurin, you can change it to your preferred distribution
-      #     java-version: '17'
+      - name: 'Set up JDK'
+        uses: actions/setup-java@v2
+        with:
+          # distribution: 'temurin' # This is Eclipse Temurin, you can change it to your preferred distribution
+          java-version: '17'
 
       - uses: subosito/flutter-action@v2
         with:
