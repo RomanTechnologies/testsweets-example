@@ -103,10 +103,10 @@ jobs:
       #     script: ./gradlew connectedCheck
 
       - name: TestSweets Authenticate
-        run: sudo testsweets authenticate -e ${{ secrets.TESTSWEETS_EMAIL_ACCOUNT }} -p ${{ secrets.TESTSWEETS_PASSWORD }}
+        run: testsweets authenticate -e ${{ secrets.TESTSWEETS_EMAIL_ACCOUNT }} -p ${{ secrets.TESTSWEETS_PASSWORD }}
 
       - name: Run TestSweets Tests
-        run: sudo testsweets run -p qA5ua2TOgxBtMGcSVBGE -a build/app/outputs/flutter-apk/app-debug.apk
+        run: testsweets run -p qA5ua2TOgxBtMGcSVBGE -a build/app/outputs/flutter-apk/app-debug.apk
   ios:
     runs-on: macos-14 # use macos-14 insted of macos-latest-large as that is based on M1 (  https://docs.github.com/en/actions/using-github-hosted-runners/about-github-hosted-runners/about-github-hosted-runners#:~:text=N/A-,macOS,N/A,-Standard%20GitHub%2Dhosted ) 
 
@@ -160,7 +160,7 @@ jobs:
           model: 'iPhone 14 Pro'
       
       - name: TestSweets Authenticate
-        run: sudo testsweets authenticate -e ${{ secrets.TESTSWEETS_EMAIL_ACCOUNT }} -p ${{ secrets.TESTSWEETS_PASSWORD }}
+        run: testsweets authenticate -e ${{ secrets.TESTSWEETS_EMAIL_ACCOUNT }} -p ${{ secrets.TESTSWEETS_PASSWORD }}
 
       - name: Run TestSweets Tests
-        run: sudo testsweets run -p qA5ua2TOgxBtMGcSVBGE -a build/ios/iphonesimulator/Runner.app
+        run: testsweets run -p qA5ua2TOgxBtMGcSVBGE -a build/ios/iphonesimulator/Runner.app
