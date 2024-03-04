@@ -49,10 +49,10 @@ jobs:
           disable-animations: false
           script: echo "Generated AVD snapshot for caching."
 
-      - name: run tests
-        uses: reactivecircus/android-emulator-runner@v2
-        with:
-          api-level: 29
+      # - name: run tests
+      #   uses: reactivecircus/android-emulator-runner@v2
+      #   with:
+      #     api-level: 29
           # script: ./gradlew connectedCheck
 
       # - name: run tests
@@ -93,7 +93,7 @@ jobs:
           brew tap filledstacks/tap
           brew install testsweets
       
-      # - name: Start Emulator and Run TestSweets # TODO: Currently we have to find the Alternative for this only
+      # - name: Start Emulator # TODO: Currently we have to find the Alternative for this only
       #   uses: reactivecircus/android-emulator-runner@v2
       #   with:
       #     api-level: 29
