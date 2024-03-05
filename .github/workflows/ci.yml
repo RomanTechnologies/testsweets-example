@@ -10,7 +10,7 @@ on:
 jobs:
   android:
     # runs-on: ubuntu-latest
-    runs-on: macos-14
+    runs-on: macos-latest
 
     # outputs:
     #   built-apk: ${{ steps.buildApk.outputs.apkPath }}
@@ -102,11 +102,18 @@ jobs:
       #     emulator-boot-timeout: 20000
       #     script: ./gradlew connectedCheck
 
-      - name: TestSweets Authenticate
-        run: testsweets authenticate -e ${{ secrets.TESTSWEETS_EMAIL_ACCOUNT }} -p ${{ secrets.TESTSWEETS_PASSWORD }}
+      # - name: TestSweets Authenticate
+      #   run: testsweets authenticate -e ${{ secrets.TESTSWEETS_EMAIL_ACCOUNT }} -p ${{ secrets.TESTSWEETS_PASSWORD }}
 
       - name: Run TestSweets Tests
-        run: testsweets run -p qA5ua2TOgxBtMGcSVBGE -a build/app/outputs/flutter-apk/app-debug.apk
+        # run: testsweets run -p $project_id -a $app_path -c $config_name -e $email -p $password
+        run: testsweets run -p $project_id -a $app_path
+        env:
+          project_id: qA5ua2TOgxBtMGcSVBGE
+          app_path: build/app/outputs/flutter-apk/app-debug.apk
+          config_name: "Config Name"
+          email: ${{ secrets.TESTSWEETS_EMAIL_ACCOUNT }}
+          password: ${{ secrets.TESTSWEETS_PASSWORD }}
   ios:
     runs-on: macos-14 # use macos-14 insted of macos-latest-large as that is based on M1 (  https://docs.github.com/en/actions/using-github-hosted-runners/about-github-hosted-runners/about-github-hosted-runners#:~:text=N/A-,macOS,N/A,-Standard%20GitHub%2Dhosted ) 
 
@@ -159,8 +166,16 @@ jobs:
         with:
           model: 'iPhone 14 Pro'
       
-      - name: TestSweets Authenticate
-        run: testsweets authenticate -e ${{ secrets.TESTSWEETS_EMAIL_ACCOUNT }} -p ${{ secrets.TESTSWEETS_PASSWORD }}
+      # - name: TestSweets Authenticate
+      #   run: testsweets authenticate -e ${{ secrets.TESTSWEETS_EMAIL_ACCOUNT }} -p ${{ secrets.TESTSWEETS_PASSWORD }}
 
       - name: Run TestSweets Tests
-        run: testsweets run -p qA5ua2TOgxBtMGcSVBGE -a build/ios/iphonesimulator/Runner.app
+        # run: testsweets run -p $project_id -a $app_path -c $config_name -e $email -p $password
+        run: testsweets run -p $project_id -a $app_path
+        env:
+          project_id: qA5ua2TOgxBtMGcSVBGE
+          app_path: build/ios/iphonesimulator/Runner.app
+          config_name: "Config Name"
+          email: ${{ secrets.TESTSWEETS_EMAIL_ACCOUNT }}
+          password: ${{ secrets.TESTSWEETS_PASSWORD }}
+          
