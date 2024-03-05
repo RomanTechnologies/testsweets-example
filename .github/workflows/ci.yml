@@ -107,7 +107,7 @@ jobs:
 
       - name: Run TestSweets Tests
         # run: testsweets run -p $project_id -a $app_path -c $config_name -e $email -w $password
-        run: testsweets run -p $project_id -a $app_path -c -e $email -w $password
+        run: testsweets run -p $project_id -a $app_path -e $email -w $password
         env:
           project_id: qA5ua2TOgxBtMGcSVBGE
           app_path: build/app/outputs/flutter-apk/app-debug.apk
@@ -171,7 +171,7 @@ jobs:
 
       - name: Run TestSweets Tests
         # run: testsweets run -p $project_id -a $app_path -c $config_name -e $email -w $password
-        run: testsweets run -p $project_id -a $app_path -c -e $email -w $password
+        run: testsweets run -p $project_id -a $app_path -e $email -w $password
         env:
           project_id: qA5ua2TOgxBtMGcSVBGE
           app_path: build/ios/iphonesimulator/Runner.app
