@@ -46,8 +46,9 @@ jobs:
           api-level: 29
           # arch: arm64-v8a
           force-avd-creation: false
-          emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
-          disable-animations: false
+          emulator-options: -no-snapshot-save -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
+          disable-animations: true
+          emulator-boot-timeout: 20000
           script: echo "Generated AVD snapshot for caching."
 
       # - name: run tests
@@ -105,8 +106,11 @@ jobs:
       # - name: TestSweets Authenticate
       #   run: testsweets authenticate -e ${{ secrets.TESTSWEETS_EMAIL_ACCOUNT }} -p ${{ secrets.TESTSWEETS_PASSWORD }}
 
+      - name: List Connected Emulators
+        run: |
+          adb devices
+
       - name: Run TestSweets Tests
-        # run: testsweets run -p $project_id -a $app_path -c $config_name -e $email -w $password
         run: testsweets run -p $project_id -a $app_path -e $email -w $password
         env:
           project_id: qA5ua2TOgxBtMGcSVBGE
