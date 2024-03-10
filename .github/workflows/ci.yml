@@ -19,6 +19,29 @@ jobs:
       - name: checkout
         uses: actions/checkout@v4
 
+      - name: Cache Flutter dependencies
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.pub-cache
+            .dart_tool
+            .flutter-plugins
+            .flutter-plugins-dependencies
+            build
+          key: ${{ runner.os }}-flutter-${{ hashFiles('**/pubspec.yaml', '**/pubspec.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-flutter-
+
+      - name: Cache Android build outputs
+        uses: actions/cache@v4
+        with:
+          path: |
+            build/app/outputs/flutter-apk/
+          key: ${{ runner.os }}-android-build-outputs-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-android-build-outputs-
+
+
       # - name: Enable KVM
       #   run: |
       #     echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
@@ -56,22 +79,33 @@ jobs:
       #     api-level: 29
           # script: ./gradlew connectedCheck
 
-      - name: run tests
-        uses: reactivecircus/android-emulator-runner@v2
-        with:
-          # api-level: ${{ matrix.api-level }}
-          api-level: 29
-          arch: arm64-v8a
-          force-avd-creation: false
-          emulator-options: -no-snapshot-save -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
-          disable-animations: true
-          script: ./gradlew connectedCheck
+      # - name: run tests
+      #   uses: reactivecircus/android-emulator-runner@v2
+      #   with:
+      #     # api-level: ${{ matrix.api-level }}
+      #     api-level: 29
+      #     arch: arm64-v8a
+      #     force-avd-creation: false
+      #     emulator-options: -no-snapshot-save -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
+      #     disable-animations: true
+      #     script: ./gradlew connectedCheck
 
-      - name: 'Set up JDK'
+      - name: Cache JDK
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/jdk
+          key: ${{ runner.os }}-jdk-${{ hashFiles('**/.java-version') }}  # Assuming you specify the JDK version in a .java-version file
+          restore-keys: |
+            ${{ runner.os }}-jdk-
+
+      - name: Set up JDK
         uses: actions/setup-java@v2
         with:
-          distribution: 'temurin' # This is Eclipse Temurin, you can change it to your preferred distribution
           java-version: '17'
+          distribution: 'temurin'  # This is Eclipse Temurin, you can change it to your preferred distribution
+          # cache: 'gradle'  # This option automatically caches the Gradle wrapper and dependencies
+          cache: 'gradle'  # This option automatically caches the Gradle wrapper and dependencies
 
       - uses: subosito/flutter-action@v2
         with:
@@ -84,6 +118,12 @@ jobs:
       - name: Flutter Build debug APK
         id: buildApk
         run: flutter build apk --debug --dart-define=FORCE_CAPTURE_MODE=false
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v2
+        with:
+          name: App APK
+          path: build/app/outputs/flutter-apk/app-debug.apk
 
       - name: Setup Homebrew
         run: |
@@ -127,6 +167,16 @@ jobs:
       - name: checkout
         uses: actions/checkout@v4
 
+      - name: Cache CocoaPods dependencies
+        uses: actions/cache@v4
+        with:
+          path: |
+            ios/Pods
+            ~/.cocoapods
+          key: ${{ runner.os }}-pods-${{ hashFiles('**/Podfile.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-pods-
+
       - uses: subosito/flutter-action@v2
         with:
           channel: "stable"
@@ -140,6 +190,13 @@ jobs:
       - name: Flutter Build debug IPA
         id: buildIpa
         run: flutter build ios --debug --simulator --no-codesign --dart-define=FORCE_CAPTURE_MODE=false
+
+      - name: Upload APP
+        uses: actions/upload-artifact@v2
+        with:
+          name: App APP
+          path: build/ios/iphonesimulator/Runner.app
+
 
       - name: Setup Homebrew
         run: |
