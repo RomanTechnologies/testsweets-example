@@ -119,11 +119,11 @@ jobs:
         id: buildApk
         run: flutter build apk --debug --dart-define=FORCE_CAPTURE_MODE=false
 
-      - name: Upload APK
-        uses: actions/upload-artifact@v2
-        with:
-          name: App APK
-          path: build/app/outputs/flutter-apk/app-debug.apk
+      # - name: Upload APK
+      #   uses: actions/upload-artifact@v2
+      #   with:
+      #     name: App APK
+      #     path: build/app/outputs/flutter-apk/app-debug.apk
 
       - name: Setup Homebrew
         run: |
@@ -191,11 +191,11 @@ jobs:
         id: buildIpa
         run: flutter build ios --debug --simulator --no-codesign --dart-define=FORCE_CAPTURE_MODE=false
 
-      - name: Upload APP
-        uses: actions/upload-artifact@v2
-        with:
-          name: App APP
-          path: build/ios/iphonesimulator/Runner.app
+      # - name: Upload APP
+      #   uses: actions/upload-artifact@v2
+      #   with:
+      #     name: App APP
+      #     path: build/ios/iphonesimulator/Runner.app
 
 
       - name: Setup Homebrew
