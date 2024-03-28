@@ -71,8 +71,9 @@ jobs:
           emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
           disable-animations: true
           emulator-boot-timeout: 20000
-          script: echo "Generated AVD snapshot for caching."
-
+          # script: echo "Generated AVD snapshot for caching."
+          script: ./gradlew connectedCheck
+          
       # - name: run tests
       #   uses: reactivecircus/android-emulator-runner@v2
       #   with:
